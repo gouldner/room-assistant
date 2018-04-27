@@ -8,7 +8,7 @@ ARG BUILD_DATE
 ARG BUILD_REF
 ARG BUILD_VERSION
 
-RUN apk add --no-cache nodejs nodejs-npm make g++ bluez libusb libusb-dev
+RUN apk add --no-cache nodejs nodejs-npm python make g++ bluez libusb libusb-dev
 
 COPY . /room-assistant
 WORKDIR /room-assistant
