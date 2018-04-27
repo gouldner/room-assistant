@@ -11,12 +11,13 @@
     "armhf",
     "i386"
   ],
-  "__DISABLED_FOR_TESTING__image": "mkerix/room-assistant-{arch}",
+  "image": "mkerix/room-assistant-{arch}",
   "boot": "auto",
   "host_network": true,
   "options": {
     "app": {
-      "unsafe": false
+      "unsafe": false,
+      "logging": false
     },
     "mqtt": {
       "enabled": false,
@@ -73,7 +74,8 @@
   },
   "schema": {
     "app": {
-      "unsafe": "bool"
+      "unsafe": "bool",
+      "logging": "bool"
     },
     "mqtt": {
       "enabled": "bool",
