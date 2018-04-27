@@ -9,5 +9,5 @@ docker run --rm \
            -v ~/.docker:/root/.docker \
            -v "$TRAVIS_BUILD_DIR":/data \
            homeassistant/amd64-builder:latest \
-           --all \
+           --$1 \
            -t /data

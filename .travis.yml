@@ -7,6 +7,12 @@ jobs:
   include:
     - stage: build
       if: branch = master OR tag IS present
-      script: ./build_master.sh
+      script: ./build_master.sh all
     - if: branch != master AND tag IS blank
-      script: ./build_branch.sh
+      script: ./build_branch.sh armhf
+    - if: branch != master AND tag IS blank
+      script: ./build_branch.sh amd64
+    - if: branch != master AND tag IS blank
+      script: ./build_branch.sh aarch64
+    - if: branch != master AND tag IS blank
+      script: ./build_branch.sh i386

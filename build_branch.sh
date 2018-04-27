@@ -7,5 +7,5 @@ docker run --rm \
            -v "$TRAVIS_BUILD_DIR":/data \
            homeassistant/amd64-builder \
            --test \
-           --all \
+           --$1 \
            -t /data
