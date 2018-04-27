@@ -1,18 +1,23 @@
-sudo: false
+sudo: required
 
 services:
   - docker
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+env:
+  - ARCH=armhf
+  - ARCH=amd64
+  - ARCH=aarch64
+  - ARCH=i386
 
 jobs:
   include:
     - stage: build
       if: branch = master OR tag IS present
-      script: ./build_master.sh all
+      script: ./build_master.sh $ARCH
     - if: branch != master AND tag IS blank
-      script: ./build_branch.sh armhf
-    - if: branch != master AND tag IS blank
-      script: ./build_branch.sh amd64
-    - if: branch != master AND tag IS blank
-      script: ./build_branch.sh aarch64
-    - if: branch != master AND tag IS blank
-      script: ./build_branch.sh i386
+      script: ./build_branch.sh $ARCH
