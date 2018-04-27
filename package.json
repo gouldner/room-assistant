@@ -1,6 +1,6 @@
 {
   "name": "room-assistant",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A companion client for Home Assistant to handle sensors in multiple rooms.",
   "main": "index.js",
   "scripts": {
@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "bleacon": "^0.5.1",
-    "config": "^1.29.4",
+    "config": "^1.30.0",
     "kalmanjs": "^1.0.0-beta",
     "mqtt": "^1.14.0",
-    "noble": "^1.9.0",
+    "noble": "^1.9.1",
     "pi-gpio": "^0.0.8",
     "scribe-js": "^2.0.4",
     "temper1": "0.0.7"
