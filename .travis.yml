@@ -14,10 +14,15 @@ env:
   - ARCH=aarch64
   - ARCH=i386
 
+stages:
+  - name: test
+    if: branch != master AND tag IS blank
+  - name: build
+    if: branch = master OR tag IS present
+
 jobs:
   include:
-    - stage: build
-      if: branch = master OR tag IS present
-      script: ./build_master.sh $ARCH
-    - if: branch != master AND tag IS blank
+    - stage: test
       script: ./build_branch.sh $ARCH
+    - name: build
+      script: ./build_master.sh $ARCH
