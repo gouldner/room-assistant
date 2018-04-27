@@ -8,7 +8,7 @@ defaults: &defaults
           command: docker info
       - run:
           name: Pull Community Hass.io Add-ons build environment
-          command: docker pull hassioaddons/build-env:latest
+          command: docker pull homeassistant/amd64-builder
       - run:
           name: Log in to Docker Hub
           command: |
@@ -26,25 +26,20 @@ defaults: &defaults
                   --privileged \
                   -v /var/run/docker.sock:/var/run/docker.sock \
                   -v ~/.docker:/root/.docker \
-                  -v "$PWD":/docker \
-                  hassioaddons/build-env:latest \
-                  --image "mkerix/room-assistant-{arch}" \
-                  --cache-tag test \
-                  --git \
-                  --target room-assistant \
+                  -v "$PWD":/data \
+                  homeassistant/amd64-builder \
                   --${ARCH} \
-                  --push
+                  -t /data
               else
                 docker run \
                   --privileged \
                   -v /var/run/docker.sock:/var/run/docker.sock \
-                  -v "$PWD":/docker \
-                  hassioaddons/build-env:latest \
-                  --cache-tag test \
-                  --image "mkerix/room-assistant-{arch}" \
-                  --git \
-                  --target room-assistant \
-                  --${ARCH}
+                  -v ~/.docker:/root/.docker \
+                  -v "$PWD":/data \
+                  homeassistant/amd64-builder \
+                  --${ARCH} \
+                  --test \
+                  -t /data
               fi
 jobs:
   aarch64:
