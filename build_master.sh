@@ -3,10 +3,11 @@ set -e
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
 
-docker run --ti \
+docker run --rm \
            --privileged \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -v ~/.docker:/root/.docker \
-           -v "$TRAVIS_BUILD_DIR":/data homeassistant/amd64-builder:latest \
+           -v "$TRAVIS_BUILD_DIR":/data \
+           homeassistant/amd64-builder:latest \
            --all \
-           --push
+           -t /data
