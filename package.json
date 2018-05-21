@@ -15,7 +15,7 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "bleacon": "^0.5.1",
+    "bleacon": "git+https://github.com/sandeepmistry/node-bleacon.git",
     "config": "^1.30.0",
     "kalmanjs": "^1.0.0-beta",
     "mqtt": "^1.14.0",
