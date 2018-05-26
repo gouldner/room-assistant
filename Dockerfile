@@ -12,6 +12,6 @@ RUN apk add --no-cache nodejs nodejs-npm python git make g++ bluez libusb libusb
 
 COPY . /room-assistant
 WORKDIR /room-assistant
-RUN npm install -q --production && ln -s /data/options.json config/local.json
+RUN npm install --production && ln -s /data/options.json config/local.json
 
 CMD [ "node", "index.js" ]
