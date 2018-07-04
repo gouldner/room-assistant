@@ -8,6 +8,7 @@ var channel = config.get('ble.channel');
 var updateFreq = parseInt(config.get('ble.update_frequency'), 0);
 
 var lastUpdateTimeMap = new Map();
+var newDeviceReportMap = new Map();
 
 function BLEScanner(callback) {
     // constructor
@@ -33,6 +34,10 @@ BLEScanner.prototype._startScanning = function (state) {
 };
 
 BLEScanner.prototype._handlePacket = function (peripheral) {
+    if (!newDeviceReportMap.has(peripheral.id)) {
+        console.log("new BLE id found id=" + peripheral.id + ", address=" + peripheral.address);
+        newDeviceReportMap.set(peripheral.id,peripheral.address)
+    }
 
     var advertisement = peripheral.advertisement;
 
