@@ -1,0 +1,59 @@
+{
+  "app": {
+    "unsafe": false,
+    "logging": false
+  },
+  "mqtt": {
+    "enabled": true,
+    "url": "mqtt://192.168.7.91",
+    "username": "",
+    "password": "",
+    "reject_unauthorized": true,
+    "topic": "garage"
+  },
+  "console": {
+    "enabled": true
+  },
+  "ble": {
+    "enabled": true,
+    "channel": "room_presence",
+    "max_distance": 50,
+    "blacklist": [],
+    "whitelist": ["c8014fbad2e7","ed40920ab836"],
+    "use_mac": false,
+    "system_noise": 0.01,
+    "measurement_noise": 3,
+    "update_frequency": 15
+  },
+  "ibeacon": {
+    "enabled": true,
+    "channel": "room_presence",
+    "max_distance": 0,
+    "blacklist": [],
+    "whitelist": [],
+    "system_noise": 0.01,
+    "measurement_noise": 3,
+    "major_mask": "0xFFFF",
+    "minor_mask": "0xFFFF"
+  },
+  "temper": {
+    "enabled": false,
+    "channel": "temper",
+    "interval": 60000,
+    "scale": 1,
+    "offset": 0
+  },
+  "gpio": {
+    "enabled": false,
+    "only_send_updates": true,
+    "ports": [],
+    "qos": 0,
+    "retain": false
+  },
+  "shell": {
+    "enabled": false,
+    "commands": [],
+    "qos": 0,
+    "retain": false
+  }
+}
