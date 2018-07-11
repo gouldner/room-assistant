@@ -16,6 +16,7 @@
   },
   "ble": {
     "enabled": false,
+    "loglevel": "debug",
     "channel": "room_presence",
     "max_distance": 0,
     "blacklist": [],

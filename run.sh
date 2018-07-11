@@ -9,6 +9,7 @@ then
     # on MacBook so just run
     . ~/.nvm/nvm.sh
     nvm use v8.10.0
+    export NODE_ENV=debug
     npm start index.js
 else
     #setup nvm since we run this script as a service

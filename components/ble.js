@@ -1,6 +1,6 @@
 var config = require('config');
 var noble = require('noble');
-//var console = process.console;
+var log = require('loglevel');
 
 var KalmanFilter = require('kalmanjs').default;
 
@@ -16,7 +16,8 @@ function BLEScanner(callback) {
     this.kalmanManager = {};
 
     this._init();
-    console.info('BLE scanner was initialized');
+    log.setLevel(config.get('ble.loglevel'));
+    log.info('BLE scanner was initialized');
 }
 
 BLEScanner.prototype._init = function () {
@@ -35,7 +36,7 @@ BLEScanner.prototype._startScanning = function (state) {
 
 BLEScanner.prototype._handlePacket = function (peripheral) {
     if (!newDeviceReportMap.has(peripheral.id)) {
-        console.info("new BLE id found id=" + peripheral.id + ", address=" + peripheral.address);
+        log.info("new BLE id found id=" + peripheral.id + ", address=" + peripheral.address);
         newDeviceReportMap.set(peripheral.id,peripheral.address)
     }
 
@@ -63,16 +64,14 @@ BLEScanner.prototype._handlePacket = function (peripheral) {
             var currTime = new Date();
             var lastUpdateTime = lastUpdateTimeMap.get(peripheral.id);
             if (lastUpdateTime === undefined) {
-                //console.info("new BLE sending id=" + id );
                 lastUpdateTimeMap.set(id,currTime);
             } else {
                 if ((currTime - lastUpdateTime) < (updateFreq*1000)) {
-                    //console.info("existing BLE id waiting=" + id );
+                    log.debug("existing BLE id waiting=" + id );
+                    log.debug("currTime=" + currTime + ", lastUpdateTime=" + lastUpdateTime + ", updateFreq=" + updateFreq);
+                    log.debug("(currTime - lastUpdateTime)=" + (currTime - lastUpdateTime));
                     return;
                 }
-                //console.info("existing BLE sending id=" + id );
-                //console.info("currTime=" + currTime + ", lastUpdateTime=" + lastUpdateTime + ", updateFreq=" + updateFreq);
-                //console.info("(currTime - lastUpdateTime)=" + (currTime - lastUpdateTime));
 
                 lastUpdateTimeMap.set(id,currTime);
             }
@@ -81,6 +80,7 @@ BLEScanner.prototype._handlePacket = function (peripheral) {
         // default hardcoded value for beacon tx power
         var txPower = advertisement.txPowerLevel || -59;
         var distance = this._calculateDistance(peripheral.rssi, txPower);
+        log.debug("BLE id=" + id + ",rssi=" + peripheral.rssi + ",txPower=" + txPower + ", distance=" + distance);
 
         // max distance parameter checking
         var maxDistance = config.get('ble.max_distance') || 0;
@@ -94,9 +94,12 @@ BLEScanner.prototype._handlePacket = function (peripheral) {
                 distance: filteredDistance
             };
 
-            //console.info("BLE id=" + id + ", peripheral.address=" + address + ",per=" + peripheral.toString());
             this.callback(channel, payload);
+        } else {
+            log.debug("BLE excluded by distance limit id=" + id + ", distance/maxDistance=" + distance + "/" + maxDistance);
         }
+    } else {
+        log.debug("BLE excluded by whitelist/blacklist logic id=" + id);
     }
 };
 

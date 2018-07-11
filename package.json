@@ -18,6 +18,7 @@
     "bleacon": "^0.5.1",
     "config": "^1.30.0",
     "kalmanjs": "^1.0.0-beta",
+    "loglevel": "^1.6.1",
     "mqtt": "^1.14.0",
     "noble": "^1.9.1",
     "pi-gpio": "^0.0.8",
