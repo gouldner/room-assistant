@@ -35,7 +35,7 @@ BLEScanner.prototype._startScanning = function (state) {
 
 BLEScanner.prototype._handlePacket = function (peripheral) {
     if (!newDeviceReportMap.has(peripheral.id)) {
-        console.log("new BLE id found id=" + peripheral.id + ", address=" + peripheral.address);
+        console.info("new BLE id found id=" + peripheral.id + ", address=" + peripheral.address);
         newDeviceReportMap.set(peripheral.id,peripheral.address)
     }
 
@@ -63,16 +63,17 @@ BLEScanner.prototype._handlePacket = function (peripheral) {
             var currTime = new Date();
             var lastUpdateTime = lastUpdateTimeMap.get(peripheral.id);
             if (lastUpdateTime === undefined) {
-                //console.log("new BLE sending id=" + peripheral.id );
+                //console.info("new BLE sending id=" + id );
                 lastUpdateTimeMap.set(id,currTime);
             } else {
                 if ((currTime - lastUpdateTime) < (updateFreq*1000)) {
-                    //console.log("existing BLE id waiting=" + peripheral.id );
+                    //console.info("existing BLE id waiting=" + id );
                     return;
                 }
-                //console.log("existing BLE sending id=" + peripheral.id );
-                //console.log("currTime=" + currTime + ", lastUpdateTime=" + lastUpdateTime + ", updateFreq=" + updateFreq);
-                //console.log("(currTime - lastUpdateTime)=" + (currTime - lastUpdateTime));
+                //console.info("existing BLE sending id=" + id );
+                //console.info("currTime=" + currTime + ", lastUpdateTime=" + lastUpdateTime + ", updateFreq=" + updateFreq);
+                //console.info("(currTime - lastUpdateTime)=" + (currTime - lastUpdateTime));
+
                 lastUpdateTimeMap.set(id,currTime);
             }
         }
@@ -93,7 +94,7 @@ BLEScanner.prototype._handlePacket = function (peripheral) {
                 distance: filteredDistance
             };
 
-            //console.log("BLE id=" + id + ", peripheral.address=" + address + ",per=" + peripheral.toString());
+            //console.info("BLE id=" + id + ", peripheral.address=" + address + ",per=" + peripheral.toString());
             this.callback(channel, payload);
         }
     }
