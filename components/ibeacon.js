@@ -5,6 +5,8 @@ var console = process.console;
 var KalmanFilter = require('kalmanjs').default;
 
 var channel = config.get('ibeacon.channel');
+var newDeviceReportMap = new Map();
+
 
 function IBeaconScanner(callback) {
     // constructor
@@ -29,6 +31,13 @@ IBeaconScanner.prototype._handlePacket = function (ibeacon) {
     var minor_mask = config.has('ibeacon.minor_mask') ? parseInt(config.get('ibeacon.minor_mask')) : 0xFFFF;
 
     var id = ibeacon.uuid + '-' + (ibeacon.major & major_mask) + '-' + (ibeacon.minor & minor_mask);
+    if (!newDeviceReportMap.has(id)) {
+        console.info("new iBeacon id found id=" + id);
+        newDeviceReportMap.set(id,id)
+    }
+
+
+    
 
     if ((whitelist.length > 0 && whitelist.includes(id))
         || !(blacklist.length > 0 && blacklist.includes(id))) {
@@ -36,6 +45,7 @@ IBeaconScanner.prototype._handlePacket = function (ibeacon) {
         // default hardcoded value for beacon tx power
         var txPower = ibeacon.measuredPower || -59;
         var distance = this._calculateDistance(ibeacon.rssi, txPower);
+        console.info("id=" + id + ", txPower=" + txPower + ", rssi=" + ibeacon.rssi + ", distance=" + distance);
 
         // max distance parameter checking
         var maxDistance = config.get('ibeacon.max_distance') || 0;
