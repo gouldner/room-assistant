@@ -6,7 +6,9 @@ var KalmanFilter = require('kalmanjs').default;
 
 var channel = config.get('ibeacon.channel');
 var newDeviceReportMap = new Map();
+var updateFreq = parseInt(config.get('ble.update_frequency'), 0);
 
+var lastUpdateTimeMap = new Map();
 
 function IBeaconScanner(callback) {
     // constructor
@@ -41,6 +43,21 @@ IBeaconScanner.prototype._handlePacket = function (ibeacon) {
 
     if ((whitelist.length > 0 && whitelist.includes(id))
         || !(blacklist.length > 0 && blacklist.includes(id))) {
+        if (updateFreq > 0) {
+            var currTime = new Date();
+            var lastUpdateTime = lastUpdateTimeMap.get(id);
+            if (lastUpdateTime === undefined) {
+                lastUpdateTimeMap.set(id,currTime);
+            } else {
+                if ((currTime - lastUpdateTime) < (updateFreq*1000)) {
+                    log.debug("existing BLE id waiting=" + id );
+                    log.debug("currTime=" + currTime + ", lastUpdateTime=" + lastUpdateTime + ", updateFreq=" + updateFreq);
+                    log.debug("(currTime - lastUpdateTime)=" + (currTime - lastUpdateTime));
+                    return;
+                }
+                lastUpdateTimeMap.set(id,currTime);
+            }
+        }
 
         // default hardcoded value for beacon tx power
         var txPower = ibeacon.measuredPower || -59;

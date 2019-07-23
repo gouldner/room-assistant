@@ -178,7 +178,7 @@ Options:
 - **use_mac** - publish the Bluetooth MAC address instead of the UUID (for devices without a consistent UUID)
 - **system_noise** - describes how noisy the system is and should be kept relatively low (used for the Kalman filter)
 - **measurement_noise** - describes how noisy the measurements are (used for the Kalman filter)
-- **update_frequency** - in milliseconds, limits how often the component sends updates to not "spam" the publisher, 0 disables the check and is the default
+- **update_frequency** - in milliseconds, limits how often the component sends updates to not "spam" the publisher, 0 disables the check and is the default RRG: Note This wasn't working so I fixed.  I changed it to seconds for easier entry.
 
 
 #### iBeacons
