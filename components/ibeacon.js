@@ -1,6 +1,7 @@
 var config = require('config');
 var bleacon = require('bleacon');
 var console = process.console;
+var log = require('loglevel');
 
 var KalmanFilter = require('kalmanjs').default;
 
